@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STUDENT360 — Intelligent Student Management System</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .landing-hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+      min-height: calc(100vh - 80px);
+    }
+    .landing-nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .demo-btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 900px) {
+      .landing-hero {
+        grid-template-columns: 1fr;
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <nav class="landing-nav">
+    <div class="brand-title">
+      <div class="brand-icon">🎓</div>
+      <span class="gradient-text">STUDENT360</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <button id="theme-toggle-btn" class="btn btn-secondary btn-icon" onclick="toggleTheme()" title="Toggle Theme">🌓</button>
+      <a href="#login-card" class="btn btn-primary">Sign In</a>
+    </div>
+  </nav>
+
+  <main class="landing-hero">
+    <div>
+      <div class="badge badge-info" style="margin-bottom:16px;">✨ Next-Gen Academic Intelligence</div>
+      <h1 style="font-size:3.2rem; line-height:1.15; margin-bottom:20px;">
+        One Platform.<br>
+        <span class="gradient-text">Complete Student Intelligence.</span>
+      </h1>
+      <p style="font-size:1.15rem; color:var(--text-muted); margin-bottom:30px; line-height:1.6;">
+        Unified academic operations featuring real-time attendance analytics, automated GPA/CGPA grading, digital fee ledger, and intelligent role-based access for Administrators, Faculty, and Students.
+      </p>
+
+      <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; margin-bottom:30px;">
+        <div class="glass tilt-card" style="padding:16px;">
+          <div style="font-size:1.5rem; margin-bottom:6px;">📊</div>
+          <h4 style="font-size:0.95rem; margin-bottom:4px;">Smart Grading Engine</h4>
+          <p style="font-size:0.8rem; color:var(--text-muted);">Credit-weighted GPA/CGPA computation with 7-tier scale.</p>
+        </div>
+        <div class="glass tilt-card" style="padding:16px;">
+          <div style="font-size:1.5rem; margin-bottom:6px;">⚡</div>
+          <h4 style="font-size:0.95rem; margin-bottom:4px;">Bulk Attendance</h4>
+          <p style="font-size:0.8rem; color:var(--text-muted);">Single-click roster marking with 75% threshold alerts.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Card -->
+    <div id="login-card" class="glass tilt-card" style="padding:36px; border-top: 4px solid var(--primary);">
+      <h2 style="font-size:1.6rem; margin-bottom:8px;">Sign In to Portal</h2>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:24px;">Enter your credentials to access your dashboard</p>
+
+      <div id="login-error-msg" style="color:var(--danger); font-size:0.85rem; margin-bottom:14px; display:none;"></div>
+
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Account Role</label>
+          <select id="login-role" class="form-select">
+            <option value="ADMIN">Administrator</option>
+            <option value="TEACHER">Faculty / Teacher</option>
+            <option value="STUDENT">Student</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="login-email" class="form-control" placeholder="name@student360.com" required value="admin@student360.com">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div style="position:relative;">
+            <input type="password" id="login-password" class="form-control" placeholder="••••••••" required value="admin123">
+            <button type="button" onclick="togglePasswordVisibility()" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-muted); cursor:pointer;">👁</button>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-size:0.82rem; color:var(--text-muted);">
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="remember-me" checked> Remember me
+          </label>
+          <span>Campus v1.0</span>
+        </div>
+
+        <button type="submit" id="login-btn" class="btn btn-primary" style="width:100%;">
+          Launch Dashboard ➔
+        </button>
+      </form>
+
+      <div style="margin-top:24px; padding-top:20px; border-top:1px solid var(--border);">
+        <span style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); font-weight:700;">Quick Demo Logins:</span>
+        <div class="demo-btn-group">
+          <button type="button" class="btn btn-sm btn-secondary" onclick="fillDemo('admin@student360.com','admin123','ADMIN')">Admin</button>
+          <button type="button" class="btn btn-sm btn-secondary" onclick="fillDemo('teacher@student360.com','teacher123','TEACHER')">Faculty</button>
+          <button type="button" class="btn btn-sm btn-secondary" onclick="fillDemo('student@student360.com','student123','STUDENT')">Student</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    // Theme Switcher
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('student360_theme', next);
+    }
+    const savedTheme = localStorage.getItem('student360_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    Dashboard.initParticles();
+    Dashboard.init3DTilt();
+
+    // Check if already authenticated
+    Auth.checkSession().then(user => {
+      if (user) {
+        window.location.href = '/app.html';
+      }
+    });
+
+    function fillDemo(email, pass, role) {
+      document.getElementById('login-email').value = email;
+      document.getElementById('login-password').value = pass;
+      document.getElementById('login-role').value = role;
+    }
+
+    function togglePasswordVisibility() {
+      const pass = document.getElementById('login-password');
+      pass.type = pass.type === 'password' ? 'text' : 'password';
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const errEl = document.getElementById('login-error-msg');
+      const btn = document.getElementById('login-btn');
+      errEl.style.display = 'none';
+
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const role = document.getElementById('login-role').value;
+
+      btn.disabled = true;
+      btn.textContent = 'Verifying credentials...';
+
+      try {
+        await Auth.login(email, password, role);
+        API.toast('Welcome back! Redirecting...', 'success');
+        setTimeout(() => {
+          window.location.href = '/app.html';
+        }, 600);
+      } catch (err) {
+        errEl.textContent = err.message || 'Invalid credentials';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Launch Dashboard ➔';
+      }
+    }
+  </script>
+</body>
+</html>
