@@ -21,7 +21,7 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a class="nav-link active" onclick="navigate('dashboard')">
+        <a class="nav-link active" data-role="ADMIN,TEACHER" onclick="navigate('dashboard')">
           <span class="nav-icon">📊</span>
           <span class="nav-text">Dashboard</span>
         </a>
@@ -36,37 +36,37 @@
           <span class="nav-text">My Profile</span>
         </a>
 
-        <a class="nav-link" onclick="navigate('attendance')">
+        <a class="nav-link" data-role="TEACHER,STUDENT" onclick="navigate('attendance')">
           <span class="nav-icon">📅</span>
           <span class="nav-text">Attendance</span>
         </a>
 
-        <a class="nav-link" onclick="navigate('marks')">
+        <a class="nav-link" data-role="TEACHER,STUDENT" onclick="navigate('marks')">
           <span class="nav-icon">🏆</span>
           <span class="nav-text">Marks & Grades</span>
         </a>
 
-        <a class="nav-link" onclick="navigate('assignments')">
+        <a class="nav-link" data-role="TEACHER,STUDENT" onclick="navigate('assignments')">
           <span class="nav-icon">📝</span>
           <span class="nav-text">Assignments</span>
         </a>
 
-        <a class="nav-link" onclick="navigate('fees')">
+        <a class="nav-link" data-role="ADMIN,STUDENT" onclick="navigate('fees')">
           <span class="nav-icon">💳</span>
           <span class="nav-text">Fee Management</span>
         </a>
 
-        <a class="nav-link" onclick="navigate('notices')">
+        <a class="nav-link" data-role="ADMIN,TEACHER,STUDENT" onclick="navigate('notices')">
           <span class="nav-icon">📢</span>
           <span class="nav-text">Notices</span>
         </a>
 
-        <a class="nav-link" onclick="navigate('timetable')">
+        <a class="nav-link" data-role="ADMIN,TEACHER,STUDENT" onclick="navigate('timetable')">
           <span class="nav-icon">⏰</span>
           <span class="nav-text">Timetable</span>
         </a>
 
-        <a class="nav-link" onclick="navigate('simulator')">
+        <a class="nav-link" data-role="ADMIN,STUDENT" onclick="navigate('simulator')">
           <span class="nav-icon">🎯</span>
           <span class="nav-text">Grade Simulator</span>
         </a>
@@ -135,7 +135,7 @@
               </div>
             </div>
 
-            <div class="stat-card glass tilt-card">
+            <div class="stat-card glass tilt-card" data-role="ADMIN">
               <div class="stat-icon-wrap" style="color:#f59e0b">💳</div>
               <div class="stat-content">
                 <div id="stat-pending-fees" class="stat-number">₹0</div>
@@ -329,7 +329,7 @@
 
         <!-- 7. FEES VIEW -->
         <section id="view-fees" style="display:none;">
-          <div id="fees-admin-view" data-role="ADMIN,TEACHER">
+          <div id="fees-admin-view" data-role="ADMIN">
             <div class="glass table-card">
               <div class="table-header-controls">
                 <h3>Institutional Fee Ledger</h3>
@@ -990,10 +990,24 @@
       'users': 'User Account Management'
     };
 
+    const rolePermissions = {
+      'ADMIN': ['dashboard', 'students', 'fees', 'notices', 'timetable', 'simulator', 'audit-logs', 'users'],
+      'TEACHER': ['dashboard', 'students', 'attendance', 'marks', 'assignments', 'notices', 'timetable'],
+      'STUDENT': ['my-profile', 'attendance', 'marks', 'assignments', 'fees', 'notices', 'timetable', 'simulator']
+    };
+
     function navigate(viewName) {
+      const u = Auth.getCurrentUser();
+      const role = u?.role || 'STUDENT';
+      const allowedViews = rolePermissions[role] || [];
+      if (!allowedViews.includes(viewName)) {
+        // Fallback to default view for role
+        viewName = role === 'STUDENT' ? 'my-profile' : 'dashboard';
+      }
+
       document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('onclick')?.includes(viewName)) {
+        if (link.getAttribute('onclick')?.includes(`'${viewName}'`)) {
           link.classList.add('active');
         }
       });
