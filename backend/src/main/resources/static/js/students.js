@@ -103,6 +103,7 @@ const Students = {
         <td style="text-align:right;">
           <div style="display:inline-flex; gap:6px;">
             <button class="btn btn-sm btn-secondary" onclick="Students.viewProfile(${s.id})" title="View Profile">👁</button>
+            <button class="btn btn-sm btn-secondary" onclick="window.open('/api/advanced/transcript/pdf/${s.id}', '_blank')" title="Download PDF Transcript">📄</button>
             ${isAdmin ? `
               <button class="btn btn-sm btn-secondary" onclick="Students.openEditModal(${s.id})" title="Edit">✏</button>
               <button class="btn btn-sm btn-danger" onclick="Students.deleteStudent(${s.id})" title="Delete">🗑</button>
@@ -159,6 +160,11 @@ const Students = {
     document.getElementById('modal-prof-course').textContent = p.courseName || 'N/A';
     document.getElementById('modal-prof-yearsem').textContent = `Year ${p.year} · Semester ${p.semester}`;
     document.getElementById('modal-prof-admission').textContent = p.admissionDate || 'N/A';
+
+    const pdfBtn = document.getElementById('modal-prof-pdf-btn');
+    if (pdfBtn) {
+      pdfBtn.onclick = () => window.open(`/api/advanced/transcript/pdf/${p.id}`, '_blank');
+    }
 
     // Metrics
     const attEl = document.getElementById('modal-prof-att');

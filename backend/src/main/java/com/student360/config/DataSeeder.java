@@ -32,6 +32,7 @@ public class DataSeeder implements CommandLineRunner {
     private final FeeRepository fees;
     private final NoticeRepository notices;
     private final TimetableRepository timetables;
+    private final AuditLogRepository auditLogs;
     private final PasswordEncoder enc;
 
     public DataSeeder(
@@ -48,6 +49,7 @@ public class DataSeeder implements CommandLineRunner {
         FeeRepository f,
         NoticeRepository n,
         TimetableRepository tt,
+        AuditLogRepository al,
         PasswordEncoder e
     ) {
         this.users = u;
@@ -63,6 +65,7 @@ public class DataSeeder implements CommandLineRunner {
         this.fees = f;
         this.notices = n;
         this.timetables = tt;
+        this.auditLogs = al;
         this.enc = e;
     }
 
@@ -326,6 +329,12 @@ public class DataSeeder implements CommandLineRunner {
         addTimetable("THURSDAY", LocalTime.of(10, 15), LocalTime.of(11, 15), s1, t1, "Room 301");
         addTimetable("FRIDAY", LocalTime.of(9, 0), LocalTime.of(10, 0), s2, t1, "Lab 2");
         addTimetable("FRIDAY", LocalTime.of(10, 15), LocalTime.of(11, 15), s7, t3, "Room 401");
+
+        // 13. Institutional Audit Logs
+        auditLogs.save(new AuditLog("Student", rahul.getId(), "ENROLLMENT", "admin@student360.com", "ROLE_ADMIN", "Student Rahul Verma officially enrolled in B.Tech CSE"));
+        auditLogs.save(new AuditLog("Marks", s1.getId(), "GRADE_ENTRY", "teacher@student360.com", "ROLE_TEACHER", "End-Semester marks recorded for Data Structures (CS301)"));
+        auditLogs.save(new AuditLog("Attendance", s2.getId(), "BULK_ATTENDANCE", "teacher@student360.com", "ROLE_TEACHER", "Class roster attendance marked for Database Systems (CS302)"));
+        auditLogs.save(new AuditLog("Fee", rahul.getId(), "PAYMENT_RECEIPT", "admin@student360.com", "ROLE_ADMIN", "Full payment of ₹85,000 received and cleared for academic year 2025-2026"));
     }
 
     private User addUser(String email, String name, String pw, String role) {

@@ -66,6 +66,16 @@
           <span class="nav-text">Timetable</span>
         </a>
 
+        <a class="nav-link" onclick="navigate('simulator')">
+          <span class="nav-icon">🎯</span>
+          <span class="nav-text">Grade Simulator</span>
+        </a>
+
+        <a class="nav-link" data-role="ADMIN" onclick="navigate('audit-logs')">
+          <span class="nav-icon">🛡️</span>
+          <span class="nav-text">Security Audit</span>
+        </a>
+
         <a class="nav-link" data-role="ADMIN" onclick="navigate('users')">
           <span class="nav-icon">⚙️</span>
           <span class="nav-text">User Accounts</span>
@@ -193,8 +203,13 @@
                   <option value="INACTIVE">INACTIVE</option>
                 </select>
               </div>
-              <div data-role="ADMIN">
-                <button class="btn btn-primary" onclick="Students.openAddModal()">+ Register Student</button>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary" onclick="window.open('/api/advanced/export/students-excel', '_blank')">📥 Export Excel</button>
+                <button class="btn btn-secondary" data-role="ADMIN" onclick="document.getElementById('excel-file-input').click()">📤 Import Excel</button>
+                <input type="file" id="excel-file-input" style="display:none;" accept=".xlsx,.xls" onchange="uploadExcelRoster(this)">
+                <div data-role="ADMIN">
+                  <button class="btn btn-primary" onclick="Students.openAddModal()">+ Register Student</button>
+                </div>
               </div>
             </div>
 
@@ -417,6 +432,55 @@
                 <tbody id="users-table-body"></tbody>
               </table>
             </div>
+        <!-- 11. GRADE SIMULATOR VIEW -->
+        <section id="view-simulator" style="display:none;">
+          <div class="glass" style="padding:24px; margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+              <div>
+                <h2>🎯 Grade Goal & GPA Simulator</h2>
+                <p style="color:var(--text-muted); font-size:0.9rem; margin-top:4px;">
+                  Simulate future academic standing and compute required end-semester exam marks to hit your dream CGPA.
+                </p>
+              </div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <label style="font-weight:600; font-size:0.9rem;">Target CGPA:</label>
+                <input type="number" id="sim-target-input" class="form-control" style="width:100px;" step="0.1" min="0" max="10" value="8.5">
+                <button class="btn btn-primary" onclick="runGradeSimulation()">Run Simulation</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="sim-results-container"></div>
+        </section>
+
+        <!-- 12. SECURITY AUDIT LOGS VIEW (ADMIN) -->
+        <section id="view-audit-logs" style="display:none;">
+          <div class="glass table-card">
+            <div class="table-header-controls">
+              <div>
+                <h2>🛡️ Institutional Security Audit Trail</h2>
+                <p style="color:var(--text-muted); font-size:0.85rem; margin-top:2px;">
+                  Real-time immutable ledger capturing marks alterations, roster batch imports, and administrative actions.
+                </p>
+              </div>
+              <button class="btn btn-secondary" onclick="loadAuditLogs()">🔄 Refresh Audit Trail</button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Entity</th>
+                    <th>Action</th>
+                    <th>Performed By</th>
+                    <th>Role</th>
+                    <th>Audit Details</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-logs-table-body"></tbody>
+              </table>
+            </div>
           </div>
         </section>
 
@@ -431,7 +495,10 @@
     <div class="modal-dialog glass" style="max-width:850px;">
       <div class="modal-header">
         <h3>Student Comprehensive 360° Profile</h3>
-        <button class="btn btn-secondary btn-icon btn-sm" onclick="closeModal('student-profile-modal')">✕</button>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button id="modal-prof-pdf-btn" class="btn btn-sm btn-secondary" onclick="">📄 Download Official Transcript (PDF)</button>
+          <button class="btn btn-secondary btn-icon btn-sm" onclick="closeModal('student-profile-modal')">✕</button>
+        </div>
       </div>
       <div class="profile-grid">
         <div class="profile-card glass">
@@ -914,6 +981,8 @@
       'fees': 'Fee Management Ledger',
       'notices': 'Campus Circulars & Notices',
       'timetable': 'Weekly Academic Timetable',
+      'simulator': 'Grade Goal & What-If GPA Simulator',
+      'audit-logs': 'Institutional Security Audit Trail',
       'users': 'User Account Management'
     };
 
@@ -944,6 +1013,8 @@
       if (viewName === 'fees') Fees.init();
       if (viewName === 'notices') Notices.init();
       if (viewName === 'timetable') Timetable.init();
+      if (viewName === 'simulator') runGradeSimulation();
+      if (viewName === 'audit-logs') loadAuditLogs();
       if (viewName === 'users') Users.init();
       if (viewName === 'my-profile') loadMyProfileView();
     }
@@ -959,6 +1030,9 @@
               <h3>${p.firstName} ${p.lastName}</h3>
               <span class="badge badge-info" style="margin-bottom:12px;">${p.rollNumber} · ${p.studentCode}</span>
               <p style="font-size:0.85rem; color:var(--text-muted);">${p.email}</p>
+              <div style="margin:12px 0;">
+                <button class="btn btn-sm btn-primary" onclick="window.open('/api/advanced/transcript/pdf/my', '_blank')">📄 Download Official Transcript (PDF)</button>
+              </div>
               <div class="profile-details-grid">
                 <div><div class="profile-field-label">Department</div><div class="profile-field-value">${p.departmentName}</div></div>
                 <div><div class="profile-field-label">Course</div><div class="profile-field-value">${p.courseName || '-'}</div></div>
@@ -993,12 +1067,121 @@
             </div>
           </div>
         `;
+    async function runGradeSimulation() {
+      const target = document.getElementById('sim-target-input').value || 8.5;
+      const container = document.getElementById('sim-results-container');
+      container.innerHTML = `<div style="text-align:center; padding:30px;"><div class="spinner"></div><p style="margin-top:10px;">Computing academic trajectory and optimal end-semester marks...</p></div>`;
+
+      try {
+        let endpoint = '/advanced/simulate-grade/my?targetCgpa=' + target;
+        if (!Auth.isStudent()) {
+          // Faculty/Admin: simulate for first student or selected student
+          const students = await API.get('/students?page=0&size=1');
+          const studentId = students.content?.[0]?.id || 1;
+          endpoint = `/advanced/simulate-grade?studentId=${studentId}&targetCgpa=${target}`;
+        }
+
+        const res = await API.get(endpoint);
+        const badgeColor = res.isAchievable ? (res.feasibilityStatus === 'REALISTIC' ? '#10b981' : '#f59e0b') : '#ef4444';
+
+        container.innerHTML = `
+          <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom:20px;">
+            <div class="stat-card glass"><div class="stat-content"><div class="stat-number">${res.currentCgpa}</div><div class="stat-label">Current CGPA</div></div></div>
+            <div class="stat-card glass"><div class="stat-content"><div class="stat-number" style="color:var(--primary)">${res.targetCgpa}</div><div class="stat-label">Target CGPA</div></div></div>
+            <div class="stat-card glass"><div class="stat-content"><div class="stat-number" style="color:${badgeColor}">${res.requiredSemesterGpa}</div><div class="stat-label">Required Next Semester GPA</div></div></div>
+            <div class="stat-card glass"><div class="stat-content"><div class="stat-number" style="color:${badgeColor}; font-size:1.1rem; text-transform:uppercase;">${res.feasibilityStatus.replace(/_/g, ' ')}</div><div class="stat-label">Feasibility Assessment</div></div></div>
+          </div>
+
+          <div class="glass" style="padding:20px; margin-bottom:20px; border-left:4px solid ${badgeColor};">
+            <h4 style="margin-bottom:6px;">Smart Advisory Strategy for ${res.studentName}</h4>
+            <p style="color:var(--text-muted); font-size:0.92rem;">${res.advice}</p>
+          </div>
+
+          <div class="glass table-card">
+            <div style="padding:16px 20px; border-bottom:1px solid var(--border);">
+              <h3>Recommended End-Semester Target per Subject</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Subject Code</th>
+                    <th>Course Subject Name</th>
+                    <th>Credits</th>
+                    <th>Internals Score (out of 70)</th>
+                    <th>Min. End-Sem Marks Needed (out of 30)</th>
+                    <th>Target Grade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${res.subjectBreakdown.map(s => `
+                    <tr>
+                      <td><b>${s.subjectCode}</b></td>
+                      <td>${s.subjectName}</td>
+                      <td><span class="badge badge-info">${s.credits} Credits</span></td>
+                      <td><b>${s.currentInternalsTotal} / 70</b></td>
+                      <td><span style="font-size:1.05rem; font-weight:700; color:${s.minEndSemMarksNeeded > 25 ? '#ef4444' : '#10b981'}">${s.minEndSemMarksNeeded} / 30</span></td>
+                      <td><span class="badge badge-active">${s.recommendedGrade}</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
       } catch (err) {
-        document.getElementById('my-profile-container').innerHTML = `<div style="color:var(--danger)">${err.message}</div>`;
+        container.innerHTML = `<div class="glass" style="padding:20px; color:var(--danger)">${err.message}</div>`;
       }
     }
 
-    // App Initialization
+    async function loadAuditLogs() {
+      const tbody = document.getElementById('audit-logs-table-body');
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px;"><div class="spinner"></div></td></tr>`;
+      try {
+        const logs = await API.get('/advanced/audit-logs');
+        if (!logs || logs.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:20px;">No audit logs recorded yet.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = logs.map(l => `
+          <tr>
+            <td style="font-size:0.85rem; color:var(--text-muted); white-space:nowrap;">${l.timestamp?.replace('T', ' ').substring(0, 19)}</td>
+            <td><span class="badge badge-info">${l.entityName} #${l.entityId}</span></td>
+            <td><b>${l.action}</b></td>
+            <td>${l.performedBy}</td>
+            <td><span class="badge badge-active">${l.userRole || 'USER'}</span></td>
+            <td style="font-size:0.88rem;">${l.details || '-'}</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" style="color:var(--danger); padding:20px;">${err.message}</td></tr>`;
+      }
+    }
+
+    async function uploadExcelRoster(input) {
+      if (!input.files || input.files.length === 0) return;
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/api/advanced/import/students-excel', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('Success: ' + data.message);
+          Students.loadStudents(0);
+        } else {
+          alert('Import failed: ' + (data.message || 'Unknown error'));
+        }
+      } catch (err) {
+        alert('Upload failed: ' + err.message);
+      } finally {
+        input.value = '';
+      }
+    }
     window.addEventListener('DOMContentLoaded', async () => {
       Dashboard.initParticles();
       const user = await Auth.checkSession();

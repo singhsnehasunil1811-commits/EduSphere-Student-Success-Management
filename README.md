@@ -17,11 +17,14 @@
 |---------|-------------|
 | 🎯 **Student Success Score** | Dynamic 0–100 score computed from attendance (30%), academics (35%), assignments (20%), and performance trend (15%). Status: `ON TRACK` / `NEEDS ATTENTION` / `CRITICAL`. |
 | ⚠️ **Early Warning Engine** | Rule-based risk analysis engine that detects attendance drops, low marks, overdue assignments, and performance decline. Generates risk level (`LOW` → `CRITICAL`) with recommended interventions. |
-| 📊 **Performance Trend Analysis** | Detects whether a student is `IMPROVING`, `STABLE`, or `DECLINING` based on historical marks data. |
+| 🎲 **Grade Goal Simulator** | Interactive GPA & What-If calculator determining exact end-semester marks needed to achieve target CGPA goals. |
+| 📄 **Official PDF Transcripts** | Dynamic generation of styled, verification-ready academic grade transcripts and report cards powered by OpenPDF. |
+| 📊 **Excel Batch Roster System** | Bulk export and multi-record import of student enrollment sheets using Apache POI (`.xlsx`). |
+| 🛡️ **Institutional Audit Ledger** | Immutable audit trail capturing grade overrides, batch imports, and critical administrative security events. |
 | 🧮 **Smart Attendance Calculator** | Calculates exactly how many consecutive classes a student needs to attend to reach the required 75% threshold. |
 | 💡 **Personalized Recommendations** | Auto-generated, data-driven suggestions like _"Improve DBMS attendance"_ or _"Focus on subjects with declining marks"_. |
 | 🏥 **Faculty Class Health Dashboard** | Bird's-eye view of class health: students on track, needing attention, or critical — with a prioritized intervention list. |
-| 🤖 **EduBot Assistant** | Rule-based chatbot that answers questions using the student's actual stored data (e.g., _"Why is my score low?"_, _"How many classes do I need?"_). |
+| 🤖 **EduBot Assistant** | Rule-based chatbot that answers questions using the student's actual stored data. |
 | 🎫 **Support Ticket System** | Students raise academic/support requests; faculty can view, assign, and resolve tickets. |
 | 🔔 **Notification Center** | Real-time alerts for low attendance, new assignments, approaching deadlines, and performance warnings. |
 | 🔍 **Global Search** | Unified search across students, subjects, assignments, and support tickets. |
