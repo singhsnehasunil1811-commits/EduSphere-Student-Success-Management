@@ -432,6 +432,9 @@
                 <tbody id="users-table-body"></tbody>
               </table>
             </div>
+          </div>
+        </section>
+
         <!-- 11. GRADE SIMULATOR VIEW -->
         <section id="view-simulator" style="display:none;">
           <div class="glass" style="padding:24px; margin-bottom:20px;">
@@ -938,6 +941,7 @@
   <script src="js/notices.js"></script>
   <script src="js/timetable.js"></script>
   <script src="js/users.js"></script>
+  <script src="js/cursor.js"></script>
 
   <script>
     // Theme Management
@@ -1191,7 +1195,7 @@
       Dashboard.initParticles();
       const user = await Auth.checkSession();
       if (!user) {
-        window.location.href = '/index.html';
+        window.location.href = '/login.html';
         return;
       }
       Auth.applyRoleRestrictions();

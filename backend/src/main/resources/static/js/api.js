@@ -38,7 +38,7 @@ const API = {
       if (err.status === 401 && !path.includes('/auth/login') && !path.includes('/auth/me')) {
         API.toast('Session expired. Please log in again.', 'warning');
         setTimeout(() => {
-          window.location.href = '/index.html';
+          window.location.href = '/login.html';
         }, 1200);
       }
       throw err;

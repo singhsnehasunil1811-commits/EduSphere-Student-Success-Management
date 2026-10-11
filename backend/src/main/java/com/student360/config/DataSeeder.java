@@ -71,6 +71,13 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        if (auditLogs.count() == 0 && users.count() > 0) {
+            auditLogs.save(new AuditLog("Student", 1L, "ENROLLMENT", "admin@student360.com", "ROLE_ADMIN", "Student Rahul Verma officially enrolled in B.Tech CSE"));
+            auditLogs.save(new AuditLog("Marks", 1L, "GRADE_ENTRY", "teacher@student360.com", "ROLE_TEACHER", "End-Semester marks recorded for Data Structures (CS301)"));
+            auditLogs.save(new AuditLog("Attendance", 2L, "BULK_ATTENDANCE", "teacher@student360.com", "ROLE_TEACHER", "Class roster attendance marked for Database Systems (CS302)"));
+            auditLogs.save(new AuditLog("Fee", 1L, "PAYMENT_RECEIPT", "admin@student360.com", "ROLE_ADMIN", "Full payment of INR 85,000 received and cleared for academic year 2025-2026"));
+        }
+
         if (users.count() > 0) return;
 
         // 1. Users
@@ -334,7 +341,7 @@ public class DataSeeder implements CommandLineRunner {
         auditLogs.save(new AuditLog("Student", rahul.getId(), "ENROLLMENT", "admin@student360.com", "ROLE_ADMIN", "Student Rahul Verma officially enrolled in B.Tech CSE"));
         auditLogs.save(new AuditLog("Marks", s1.getId(), "GRADE_ENTRY", "teacher@student360.com", "ROLE_TEACHER", "End-Semester marks recorded for Data Structures (CS301)"));
         auditLogs.save(new AuditLog("Attendance", s2.getId(), "BULK_ATTENDANCE", "teacher@student360.com", "ROLE_TEACHER", "Class roster attendance marked for Database Systems (CS302)"));
-        auditLogs.save(new AuditLog("Fee", rahul.getId(), "PAYMENT_RECEIPT", "admin@student360.com", "ROLE_ADMIN", "Full payment of ₹85,000 received and cleared for academic year 2025-2026"));
+        auditLogs.save(new AuditLog("Fee", rahul.getId(), "PAYMENT_RECEIPT", "admin@student360.com", "ROLE_ADMIN", "Full payment of INR 85,000 received and cleared for academic year 2025-2026"));
     }
 
     private User addUser(String email, String name, String pw, String role) {
