@@ -9,6 +9,7 @@ public interface FeeService {
     FeeResponse create(FeeRequest request);
     FeeResponse update(Long id, FeeRequest request);
     FeeResponse getById(Long id);
+    List<FeeResponse> getAll();
     List<FeeResponse> getByStudent(Long studentId);
     FeeResponse recordPayment(Long id, PaymentRequest request);
     List<FeeResponse> getMyFees(String username);

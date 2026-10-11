@@ -67,6 +67,13 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
+    public List<FeeResponse> getAll() {
+        return feeRepository.findAll().stream()
+            .map(this::mapToResponse)
+            .collect(Collectors.toList());
+    }
+
+    @Override
     public List<FeeResponse> getByStudent(Long studentId) {
         return feeRepository.findByStudentId(studentId).stream()
             .map(this::mapToResponse)
@@ -114,10 +121,17 @@ public class FeeServiceImpl implements FeeService {
             status = "PENDING";
         }
         
+        String studentName = (fee.getStudent().getFirstName() != null ? fee.getStudent().getFirstName() : "")
+            + " " + (fee.getStudent().getLastName() != null ? fee.getStudent().getLastName() : "");
+        studentName = studentName.trim();
+        if (studentName.isEmpty() && fee.getStudent().getUser() != null) {
+            studentName = fee.getStudent().getUser().getFullName();
+        }
+
         return new FeeResponse(
             fee.getId(),
             fee.getStudent().getId(),
-            fee.getStudent().getUser().getFirstName() + " " + fee.getStudent().getUser().getLastName(),
+            studentName,
             fee.getStudent().getRollNumber(),
             fee.getAcademicYear(),
             fee.getTotalFees(),

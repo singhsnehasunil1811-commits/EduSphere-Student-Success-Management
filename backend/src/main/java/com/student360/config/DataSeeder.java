@@ -78,6 +78,17 @@ public class DataSeeder implements CommandLineRunner {
             auditLogs.save(new AuditLog("Fee", 1L, "PAYMENT_RECEIPT", "admin@student360.com", "ROLE_ADMIN", "Full payment of INR 85,000 received and cleared for academic year 2025-2026"));
         }
 
+        if (fees.count() == 0 && students.count() > 0) {
+            List<Student> allStus = students.findAll();
+            for (int i = 0; i < allStus.size(); i++) {
+                Student st = allStus.get(i);
+                double total = (i < 2) ? 85000.0 : 80000.0;
+                double paid = (i == 0) ? 85000.0 : ((i % 3 == 0) ? 0.0 : (i % 2 == 0 ? 80000.0 : 45000.0));
+                String remarks = (paid == total) ? "Full annual tuition cleared" : (paid > 0 ? "Semester 1 installment received" : "Pending tuition fee clearance");
+                addFee(st, "2025-2026", total, paid, LocalDate.now().plusMonths(2), remarks);
+            }
+        }
+
         if (users.count() > 0) return;
 
         // 1. Users
@@ -268,14 +279,15 @@ public class DataSeeder implements CommandLineRunner {
 
         addSubmission(diya, a4, LocalDateTime.now().minusHours(5), "SUBMITTED");
 
-        // 10. Fees
+        // 10. Fees (Seed fee ledger for all enrolled students)
         addFee(rahul, "2025-2026", 85000.0, 85000.0, LocalDate.now().plusMonths(3), "Tuition & Lab fees paid in full");
         addFee(diya, "2025-2026", 85000.0, 50000.0, LocalDate.now().plusMonths(1), "First installment paid; balance due");
-        for (int i = 2; i < 10; i++) {
+        for (int i = 2; i < savedStudents.size(); i++) {
             Student st = savedStudents.get(i);
             double total = 80000.0;
-            double paid = (i % 3 == 0) ? 0.0 : (i % 2 == 0 ? 80000.0 : 40000.0);
-            addFee(st, "2025-2026", total, paid, LocalDate.now().plusMonths(2), "Annual college fee");
+            double paid = (i % 3 == 0) ? 0.0 : (i % 2 == 0 ? 80000.0 : 45000.0);
+            String remarks = (paid == total) ? "Full annual tuition cleared" : (paid > 0 ? "Semester 1 installment received" : "Pending tuition fee clearance");
+            addFee(st, "2025-2026", total, paid, LocalDate.now().plusMonths(2), remarks);
         }
 
         // 11. Notices

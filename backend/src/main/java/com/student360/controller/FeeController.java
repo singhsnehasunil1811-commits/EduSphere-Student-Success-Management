@@ -23,6 +23,11 @@ public class FeeController {
         return feeService.create(request);
     }
 
+    @GetMapping
+    public List<FeeResponse> getAll() {
+        return feeService.getAll();
+    }
+
     @PutMapping("/{id}")
     public FeeResponse update(@PathVariable Long id, @Valid @RequestBody FeeRequest request) {
         return feeService.update(id, request);
