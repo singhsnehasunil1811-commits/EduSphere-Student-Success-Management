@@ -1067,6 +1067,11 @@
             </div>
           </div>
         `;
+      } catch (err) {
+        document.getElementById('my-profile-container').innerHTML = `<div style="color:var(--danger)">${err.message}</div>`;
+      }
+    }
+
     async function runGradeSimulation() {
       const target = document.getElementById('sim-target-input').value || 8.5;
       const container = document.getElementById('sim-results-container');
