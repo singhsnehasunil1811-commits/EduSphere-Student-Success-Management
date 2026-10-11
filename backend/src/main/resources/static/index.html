@@ -3,37 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STUDENT360 — Intelligent Student Management System</title>
+  <title>EduSphere — Intelligent Student Success & Engineering Portal</title>
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    .landing-hero {
-      max-width: 1200px;
+    /* Coding Nexus Tech Hero Styling */
+    .nexus-hero {
+      max-width: 1260px;
       margin: 0 auto;
-      padding: 60px 24px;
+      padding: 50px 24px;
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 50px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
       align-items: center;
-      min-height: calc(100vh - 80px);
+      min-height: calc(100vh - 84px);
     }
-    .landing-nav {
-      max-width: 1200px;
+    .nexus-nav {
+      max-width: 1260px;
       margin: 0 auto;
-      padding: 20px 24px;
+      padding: 18px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.4);
     }
-    .demo-btn-group {
-      display: flex;
+    .tech-pill {
+      display: inline-flex;
+      align-items: center;
       gap: 8px;
-      margin-top: 16px;
-      flex-wrap: wrap;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
     }
-    @media (max-width: 900px) {
-      .landing-hero {
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .tech-feature-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 12px;
+      padding: 16px 18px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .tech-feature-card:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+    .tech-feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(180deg, #38bdf8, #818cf8);
+    }
+    .demo-chip {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(71, 85, 105, 0.6);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-mono);
+    }
+    .demo-chip:hover {
+      border-color: #38bdf8;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+    }
+    @media (max-width: 960px) {
+      .nexus-hero {
         grid-template-columns: 1fr;
-        padding: 30px 20px;
+        padding: 30px 18px;
+        gap: 30px;
       }
     }
   </style>
@@ -41,90 +104,124 @@
 <body>
   <canvas id="bg-canvas"></canvas>
 
-  <nav class="landing-nav">
-    <div class="brand-title">
-      <div class="brand-icon">🎓</div>
-      <span class="gradient-text">STUDENT360</span>
+  <nav class="nexus-nav">
+    <div class="brand-title" style="display:flex; align-items:center; gap:12px;">
+      <div style="width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg, #0284c7, #4f46e5); display:flex; align-items:center; justify-content:center; font-size:1.2rem; box-shadow:0 0 15px rgba(56, 189, 248, 0.35);">
+        ⚡
+      </div>
+      <div>
+        <span class="gradient-text" style="font-size:1.35rem; font-weight:800; letter-spacing:-0.02em;">EDUSPHERE</span>
+        <span style="font-size:0.75rem; color:var(--text-muted); display:block; font-family:var(--font-mono); margin-top:-2px;">APSIT STUDENT INTELLIGENCE</span>
+      </div>
     </div>
     <div style="display:flex; align-items:center; gap:14px;">
-      <button id="theme-toggle-btn" class="btn btn-secondary btn-icon" onclick="toggleTheme()" title="Toggle Theme">🌓</button>
-      <a href="#login-card" class="btn btn-primary">Sign In</a>
+      <button id="theme-toggle-btn" class="btn btn-secondary btn-icon" onclick="toggleTheme()" title="Toggle Theme" style="padding:8px 12px;">🌓</button>
+      <a href="#login-card" class="btn btn-primary" style="padding:8px 18px; font-size:0.85rem;">Portal Login ➔</a>
     </div>
   </nav>
 
-  <main class="landing-hero">
+  <main class="nexus-hero">
     <div>
-      <div class="badge badge-info" style="margin-bottom:16px;">✨ Next-Gen Academic Intelligence</div>
-      <h1 style="font-size:3.2rem; line-height:1.15; margin-bottom:20px;">
-        One Platform.<br>
-        <span class="gradient-text">Complete Student Intelligence.</span>
+      <div class="tech-pill">
+        <span class="pulse-dot"></span>
+        <span>ACADEMIC ENGINE ONLINE · SPRING BOOT 3 & MARIA DB</span>
+      </div>
+
+      <h1 style="font-size:3.4rem; line-height:1.12; margin-bottom:18px; font-weight:800; letter-spacing:-0.03em;">
+        Next-Generation<br>
+        <span class="gradient-text">Student Success Platform</span>
       </h1>
-      <p style="font-size:1.15rem; color:var(--text-muted); margin-bottom:30px; line-height:1.6;">
-        Unified academic operations featuring real-time attendance analytics, automated GPA/CGPA grading, digital fee ledger, and intelligent role-based access for Administrators, Faculty, and Students.
+
+      <p style="font-size:1.08rem; color:var(--text-muted); margin-bottom:28px; line-height:1.65; max-width:620px;">
+        Designed with high-concurrency architecture inspired by CodingNexus. Real-time GPA What-If simulators, OpenPDF verifiable grade transcripts, Apache POI batch roster ingestion, and attendance warning engines.
       </p>
 
-      <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; margin-bottom:30px;">
-        <div class="glass tilt-card" style="padding:16px;">
-          <div style="font-size:1.5rem; margin-bottom:6px;">📊</div>
-          <h4 style="font-size:0.95rem; margin-bottom:4px;">Smart Grading Engine</h4>
-          <p style="font-size:0.8rem; color:var(--text-muted);">Credit-weighted GPA/CGPA computation with 7-tier scale.</p>
+      <!-- Tech Feature Cards Grid -->
+      <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; margin-bottom:24px;">
+        <div class="tech-feature-card">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:#38bdf8;">SIMULATOR.CORE</span>
+            <span style="font-size:1.1rem;">🎯</span>
+          </div>
+          <h4 style="font-size:0.95rem; margin-bottom:3px;">What-If GPA Planner</h4>
+          <p style="font-size:0.8rem; color:var(--text-muted);">Computes minimum end-sem exam scores needed to reach target CGPAs.</p>
         </div>
-        <div class="glass tilt-card" style="padding:16px;">
-          <div style="font-size:1.5rem; margin-bottom:6px;">⚡</div>
-          <h4 style="font-size:0.95rem; margin-bottom:4px;">Bulk Attendance</h4>
-          <p style="font-size:0.8rem; color:var(--text-muted);">Single-click roster marking with 75% threshold alerts.</p>
+
+        <div class="tech-feature-card">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:#10b981;">TRANSCRIPTS.PDF</span>
+            <span style="font-size:1.1rem;">📄</span>
+          </div>
+          <h4 style="font-size:0.95rem; margin-bottom:3px;">Official PDF Transcripts</h4>
+          <p style="font-size:0.8rem; color:var(--text-muted);">Dynamic generation of formal grade cards via OpenPDF library.</p>
+        </div>
+
+        <div class="tech-feature-card">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:#818cf8;">INGESTION.XLSX</span>
+            <span style="font-size:1.1rem;">📊</span>
+          </div>
+          <h4 style="font-size:0.95rem; margin-bottom:3px;">Batch Excel Processing</h4>
+          <p style="font-size:0.8rem; color:var(--text-muted);">Multi-student roster import and export with Apache POI.</p>
+        </div>
+
+        <div class="tech-feature-card">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:#f59e0b;">AUDIT.SECURITY</span>
+            <span style="font-size:1.1rem;">🛡️</span>
+          </div>
+          <h4 style="font-size:0.95rem; margin-bottom:3px;">Institutional Audit Trail</h4>
+          <p style="font-size:0.8rem; color:var(--text-muted);">Immutable security ledger recording marks modifications and imports.</p>
         </div>
       </div>
     </div>
 
-    <!-- Login Card -->
-    <div id="login-card" class="glass tilt-card" style="padding:36px; border-top: 4px solid var(--primary);">
-      <h2 style="font-size:1.6rem; margin-bottom:8px;">Sign In to Portal</h2>
-      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:24px;">Enter your credentials to access your dashboard</p>
+    <!-- Login Card with Coding Nexus Tech Border -->
+    <div id="login-card" class="glass" style="padding:34px; border:1px solid rgba(56, 189, 248, 0.4); box-shadow:0 20px 45px rgba(0,0,0,0.7); position:relative;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <span class="badge badge-info">AUTHENTICATION GATEWAY</span>
+        <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">v2.4.0</span>
+      </div>
 
-      <div id="login-error-msg" style="color:var(--danger); font-size:0.85rem; margin-bottom:14px; display:none;"></div>
+      <h2 style="font-size:1.55rem; margin-bottom:4px; font-weight:700;">Sign In to EduSphere</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">Select your role to access your institutional dashboard</p>
+
+      <div id="login-error-msg" style="color:var(--danger); font-size:0.85rem; margin-bottom:14px; display:none; padding:10px; border:1px solid rgba(239,68,68,0.3); border-radius:6px; background:rgba(239,68,68,0.08);"></div>
 
       <form id="login-form" onsubmit="handleLogin(event)">
-        <div class="form-group">
-          <label class="form-label">Account Role</label>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label" style="font-size:0.82rem; font-weight:600;">System Access Role</label>
           <select id="login-role" class="form-select">
-            <option value="ADMIN">Administrator</option>
-            <option value="TEACHER">Faculty / Teacher</option>
-            <option value="STUDENT">Student</option>
+            <option value="ADMIN">Institutional Administrator</option>
+            <option value="TEACHER">Faculty / Department Teacher</option>
+            <option value="STUDENT">Enrolled Student</option>
           </select>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" id="login-email" class="form-control" placeholder="name@student360.com" required value="admin@student360.com">
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label" style="font-size:0.82rem; font-weight:600;">Institutional Email</label>
+          <input type="email" id="login-email" class="form-control" placeholder="name@student360.com" required value="admin@student360.com" style="font-family:var(--font-mono); font-size:0.88rem;">
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Password</label>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label" style="font-size:0.82rem; font-weight:600;">Master Security Key / Password</label>
           <div style="position:relative;">
-            <input type="password" id="login-password" class="form-control" placeholder="••••••••" required value="admin123">
+            <input type="password" id="login-password" class="form-control" placeholder="••••••••" required value="admin123" style="font-family:var(--font-mono); font-size:0.88rem;">
             <button type="button" onclick="togglePasswordVisibility()" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-muted); cursor:pointer;">👁</button>
           </div>
         </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-size:0.82rem; color:var(--text-muted);">
-          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
-            <input type="checkbox" id="remember-me" checked> Remember me
-          </label>
-          <span>Campus v1.0</span>
-        </div>
-
-        <button type="submit" id="login-btn" class="btn btn-primary" style="width:100%;">
-          Launch Dashboard ➔
+        <button type="submit" id="login-btn" class="btn btn-primary" style="width:100%; padding:12px; font-size:0.95rem;">
+          Authenticate & Enter Portal ➔
         </button>
       </form>
 
-      <div style="margin-top:24px; padding-top:20px; border-top:1px solid var(--border);">
-        <span style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); font-weight:700;">Quick Demo Logins:</span>
-        <div class="demo-btn-group">
-          <button type="button" class="btn btn-sm btn-secondary" onclick="fillDemo('admin@student360.com','admin123','ADMIN')">Admin</button>
-          <button type="button" class="btn btn-sm btn-secondary" onclick="fillDemo('teacher@student360.com','teacher123','TEACHER')">Faculty</button>
-          <button type="button" class="btn btn-sm btn-secondary" onclick="fillDemo('student@student360.com','student123','STUDENT')">Student</button>
+      <div style="margin-top:20px; padding-top:16px; border-top:1px solid rgba(51, 65, 85, 0.5);">
+        <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); font-weight:700; font-family:var(--font-mono); margin-bottom:8px;">Quick Role Auto-Fill:</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button type="button" class="demo-chip" onclick="fillDemo('admin@student360.com','admin123','ADMIN')">⚡ Admin</button>
+          <button type="button" class="demo-chip" onclick="fillDemo('teacher@student360.com','teacher123','TEACHER')">👩‍🏫 Faculty</button>
+          <button type="button" class="demo-chip" onclick="fillDemo('student@student360.com','student123','STUDENT')">🎓 Student</button>
         </div>
       </div>
     </div>
@@ -134,7 +231,6 @@
   <script src="js/auth.js"></script>
   <script src="js/dashboard.js"></script>
   <script>
-    // Theme Switcher
     function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme');
       const next = current === 'light' ? 'dark' : 'light';
@@ -145,9 +241,7 @@
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     Dashboard.initParticles();
-    Dashboard.init3DTilt();
 
-    // Check if already authenticated
     Auth.checkSession().then(user => {
       if (user) {
         window.location.href = '/app.html';
@@ -176,19 +270,19 @@
       const role = document.getElementById('login-role').value;
 
       btn.disabled = true;
-      btn.textContent = 'Verifying credentials...';
+      btn.textContent = 'Authenticating with EduSphere...';
 
       try {
         await Auth.login(email, password, role);
-        API.toast('Welcome back! Redirecting...', 'success');
+        API.toast('Authenticated! Launching portal...', 'success');
         setTimeout(() => {
           window.location.href = '/app.html';
-        }, 600);
+        }, 500);
       } catch (err) {
-        errEl.textContent = err.message || 'Invalid credentials';
+        errEl.textContent = err.message || 'Authentication failed';
         errEl.style.display = 'block';
         btn.disabled = false;
-        btn.textContent = 'Launch Dashboard ➔';
+        btn.textContent = 'Authenticate & Enter Portal ➔';
       }
     }
   </script>

@@ -1,42 +1,43 @@
-/* STUDENT360 — Ultra-Modern 3D Glassmorphism Stylesheet */
+/* EduSphere — Modern Tech Dark Theme Inspired by Coding Nexus */
 :root {
-  --bg-dark: #090d16;
-  --bg-gradient: radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.18) 0%, transparent 40%),
-                 radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
-                 radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
-                 #090d16;
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --card-hover: rgba(255, 255, 255, 0.08);
-  --border: rgba(255, 255, 255, 0.12);
-  --border-glow: rgba(124, 58, 237, 0.4);
-  --text: #f1f5f9;
+  --bg-dark: #0a0e17;
+  --bg-gradient: radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.12) 0%, transparent 45%),
+                 radial-gradient(circle at 85% 20%, rgba(99, 102, 241, 0.14) 0%, transparent 40%),
+                 radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+                 #0a0e17;
+  --card-bg: rgba(15, 23, 42, 0.72);
+  --card-hover: rgba(30, 41, 59, 0.85);
+  --border: rgba(51, 65, 85, 0.65);
+  --border-glow: rgba(56, 189, 248, 0.5);
+  --text: #f8fafc;
   --text-muted: #94a3b8;
-  --primary: #7c3aed;
-  --primary-glow: rgba(124, 58, 237, 0.35);
-  --secondary: #06b6d4;
+  --primary: #38bdf8;
+  --primary-glow: rgba(56, 189, 248, 0.35);
+  --secondary: #6366f1;
   --success: #10b981;
   --warning: #f59e0b;
   --danger: #ef4444;
   --sidebar-w: 260px;
   --sidebar-collapsed: 72px;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
-  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.65);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 [data-theme="light"] {
   --bg-dark: #f8fafc;
-  --bg-gradient: radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 40%),
-                 radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+  --bg-gradient: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+                 radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.06) 0%, transparent 40%),
                  #f1f5f9;
-  --card-bg: rgba(255, 255, 255, 0.85);
-  --card-hover: rgba(255, 255, 255, 0.95);
-  --border: rgba(148, 163, 184, 0.25);
-  --border-glow: rgba(124, 58, 237, 0.3);
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-hover: rgba(255, 255, 255, 1);
+  --border: rgba(203, 213, 225, 0.8);
+  --border-glow: rgba(56, 189, 248, 0.4);
   --text: #0f172a;
   --text-muted: #64748b;
-  --shadow: 0 15px 35px -10px rgba(15, 23, 42, 0.12);
+  --shadow: 0 15px 35px -10px rgba(15, 23, 42, 0.1);
 }
 
 * {
@@ -95,7 +96,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #a78bfa, #38bdf8, #ec4899);
+  background: linear-gradient(135deg, #38bdf8, #818cf8, #34d399);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -103,55 +104,56 @@ h1, h2, h3, h4, h5, h6 {
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   padding: 4px 10px;
-  border-radius: 9999px;
+  border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  font-family: var(--font-mono);
 }
 
 .badge-active, .badge-paid, .badge-present {
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(16, 185, 129, 0.12);
   color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.4);
 }
 
 .badge-inactive, .badge-absent, .badge-urgent {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.12);
   color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 .badge-warning, .badge-partially-paid, .badge-late, .badge-important {
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(245, 158, 11, 0.12);
   color: #f59e0b;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
 .badge-info, .badge-pending, .badge-normal {
-  background: rgba(6, 182, 212, 0.15);
-  color: #06b6d4;
-  border: 1px solid rgba(6, 182, 212, 0.3);
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
 }
 
 .badge-role-admin {
-  background: rgba(236, 72, 153, 0.15);
+  background: rgba(236, 72, 153, 0.12);
   color: #ec4899;
-  border: 1px solid rgba(236, 72, 153, 0.3);
+  border: 1px solid rgba(236, 72, 153, 0.4);
 }
 
 .badge-role-teacher {
-  background: rgba(124, 58, 237, 0.15);
-  color: #8b5cf6;
-  border: 1px solid rgba(124, 58, 237, 0.3);
+  background: rgba(129, 140, 248, 0.12);
+  color: #818cf8;
+  border: 1px solid rgba(129, 140, 248, 0.4);
 }
 
 .badge-role-student {
-  background: rgba(14, 165, 233, 0.15);
-  color: #0ea5e9;
-  border: 1px solid rgba(14, 165, 233, 0.3);
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
 }
 
 /* Buttons */
